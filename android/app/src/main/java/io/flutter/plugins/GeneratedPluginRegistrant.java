@@ -1,6 +1,7 @@
 package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
+import co.apperto.fastqrreaderview.FastQrReaderViewPlugin;
 
 /**
  * Generated file. Do not edit.
@@ -10,6 +11,7 @@ public final class GeneratedPluginRegistrant {
     if (alreadyRegisteredWith(registry)) {
       return;
     }
+    FastQrReaderViewPlugin.registerWith(registry.registrarFor("co.apperto.fastqrreaderview.FastQrReaderViewPlugin"));
   }
 
   private static boolean alreadyRegisteredWith(PluginRegistry registry) {
