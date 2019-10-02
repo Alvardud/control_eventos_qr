@@ -1,0 +1,6 @@
+**
+services
+    *qr scan
+    *sqlite
+    *others
+**

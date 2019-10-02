@@ -1,0 +1,7 @@
+**
+pages layouts
+    *login
+    *choose your sponsor
+    *choose event (internal)
+    *other
+**

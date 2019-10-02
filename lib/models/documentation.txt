@@ -1,0 +1,6 @@
+**
+models (class)
+    *user
+    *event
+    *other
+**
