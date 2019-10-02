@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:control_eventos_qr/data/constants.dart' as constant;
+import 'package:control_eventos_qr/ui/pages/home.dart';
 
 void main() => runApp(MyApp());
 
