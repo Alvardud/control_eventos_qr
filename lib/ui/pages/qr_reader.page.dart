@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:control_eventos_qr/data/constants.dart' as constant;
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:control_eventos_qr/ui/widgets/CustomButton.widget.dart';
 
 class QrReaderPage extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
   final databaseReference = Firestore.instance;
 
   var qrText = "";
-  var ticket;
+  DocumentSnapshot ticket;
 
   QRViewController controller;
 
@@ -24,16 +25,26 @@ class _QrReaderPageState extends State<QrReaderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        // centerTitle: true,
         backgroundColor: constant.primaryColor,
         title: Text("Demo"),
+        actions: <Widget>[
+          FlatButton(
+            child: Icon(
+              Icons.settings,
+              color: Colors.white70,
+            ),
+            onPressed: () {},
+          )
+        ],
       ),
       body: Builder(
-        builder: (context) => (Column(
-          children: <Widget>[
-            Expanded(
-              flex: 5,
-              child: QRView(
+        builder: (context) => Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: (Stack(
+            children: <Widget>[
+              QRView(
                 key: qrKey,
                 onQRViewCreated: (QRViewController controller) {
                   _onQRViewCreated(controller, context);
@@ -43,18 +54,22 @@ class _QrReaderPageState extends State<QrReaderPage> {
                     borderRadius: 10,
                     borderLength: 20,
                     borderWidth: 5,
-                    cutOutSize: 250,
-                    overlayColor: Color.fromRGBO(0, 0, 0, 80)),
+                    cutOutSize: 200,
+                    overlayColor: Color.fromRGBO(0, 0, 0, 60)),
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Center(
-                child: Text('Scan result: $qrText'),
+              Positioned.fill(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    'Align the QR code within \n the frame to scan.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ),
               ),
-            )
-          ],
-        )),
+            ],
+          )),
+        ),
       ),
     );
   }
@@ -72,24 +87,38 @@ class _QrReaderPageState extends State<QrReaderPage> {
         });
 
         if (this.ticket != null) {
-          print(this.ticket['values2']['jala']);
+          // first parameter logistic / feria / sponsors
+          // second parameter almuerzo / startup_1 / jala
 
-          Future<void> future = showModalBottomSheet(
-            context: context,
-            builder: (context) => Container(
-              height: 50.0,
-              width: 50.0,
-              color: Colors.red,
-              child: Text(scanData),
-            ),
-          );
+          print(this.ticket.data['sponsors']['jalasoft']);
+          if (this.ticket.data['sponsors']['jalasoft'] == null) {
+            Future<void> future = showModalBottomSheet(
+              context: context,
+              builder: (context) => Container(
+                height: 150.0,
+                color: Colors.red,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    CustomButton(
+                        icon: Icons.filter_1, addFunction: _updateTicket),
+                    CustomButton(
+                        icon: Icons.filter_3, addFunction: _updateTicket),
+                    CustomButton(
+                        icon: Icons.filter_5, addFunction: _updateTicket),
+                  ],
+                ),
+              ),
+            );
 
-          future.then((void value) => controller.resumeCamera());
+            future.then((void value) => controller.resumeCamera());
+          } else {}
         } else {
           final snackBar = SnackBar(
-            content: Text('Yay! A SnackBar!'),
+            content: Text('Ticket no registrado!'),
+            duration: Duration(seconds: 5),
             action: SnackBarAction(
-              label: 'Undo',
+              label: 'close',
               onPressed: () {
                 // Some code to undo the change.
               },
@@ -120,9 +149,18 @@ class _QrReaderPageState extends State<QrReaderPage> {
       }
       if (snapshot.documents.length == 1) {
         // Lunch qr register Assign points or meals
-        this.ticket = snapshot.documents[0].data;
+        this.ticket = snapshot.documents[0];
         print(this.ticket);
       }
     });
+  }
+
+  _updateTicket() {
+    var x = this.ticket.data;
+    x['sponsors']['jalasoft'] = 5;
+    databaseReference
+        .collection('tickets')
+        .document(this.ticket.documentID)
+        .updateData(x);
   }
 }
