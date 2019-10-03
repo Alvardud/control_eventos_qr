@@ -1,7 +1,7 @@
 package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
-import co.apperto.fastqrreaderview.FastQrReaderViewPlugin;
+import net.touchcapture.qr.flutterqr.FlutterQrPlugin;
 
 /**
  * Generated file. Do not edit.
@@ -11,7 +11,7 @@ public final class GeneratedPluginRegistrant {
     if (alreadyRegisteredWith(registry)) {
       return;
     }
-    FastQrReaderViewPlugin.registerWith(registry.registrarFor("co.apperto.fastqrreaderview.FastQrReaderViewPlugin"));
+    FlutterQrPlugin.registerWith(registry.registrarFor("net.touchcapture.qr.flutterqr.FlutterQrPlugin"));
   }
 
   private static boolean alreadyRegisteredWith(PluginRegistry registry) {
