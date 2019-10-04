@@ -1,3 +1,4 @@
+import 'package:control_eventos_qr/models/company.dart';
 import "package:flutter/material.dart";
 
 Color _convertColor(String x) {
@@ -26,9 +27,17 @@ const Map<String, String> keyNameUser = {
   "Participantes feria de proyectos": "proyecto"
 };
 
+const String errorLoginText = "Error de autenticación, revise: \n\t*\tNo tener el campo vacio\n\t*\tColocar la contraseña correcta";
+
 const List<IconData> userTypeIcon = [
   Icons.account_box,
   Icons.store,
   Icons.book,
   Icons.location_city
 ];
+
+Company companyOrganizer = Company(
+  name: 'Organizador/a',
+  linkLogo: null,
+  pass: "1234",
+);

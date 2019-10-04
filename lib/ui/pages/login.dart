@@ -25,7 +25,10 @@ class Login extends StatelessWidget {
                             name: _values[item],
                             forward: '\"Seleccionar Usuario\"',
                           )
-                        : Auth())),
+                        : Auth(
+                          company: constant.companyOrganizer,
+                          forward: '\"Seleccionar Usuario\"',
+                        ))),
             child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),

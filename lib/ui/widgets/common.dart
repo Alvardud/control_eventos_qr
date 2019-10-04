@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 Widget appBarLogin(
-    {BuildContext context, String titleAppBar, String subtitleAppBar,bool center=false}){
+    {BuildContext context,
+    String titleAppBar,
+    String subtitleAppBar,
+    bool center = false}) {
   return AppBar(
       brightness: Brightness.light,
       backgroundColor: Colors.white,
@@ -51,9 +54,7 @@ class NoItemsWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            
-          ],
+          children: <Widget>[],
         ),
       ),
     );
@@ -61,23 +62,34 @@ class NoItemsWidget extends StatelessWidget {
 }
 
 class ForwardBoton extends StatelessWidget {
-
   final String forward;
   ForwardBoton({this.forward});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal:8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         children: <Widget>[
-          Icon(Icons.arrow_back_ios,color: Colors.grey[600],),
-          SizedBox(width: 8.0,),
-          Text("Volver a $forward",style: TextStyle(
-            color: Colors.grey[600]
-          ),)
+          Icon(
+            Icons.arrow_back_ios,
+            color: Colors.grey[600],
+          ),
+          SizedBox(
+            width: 8.0,
+          ),
+          Text(
+            "Volver a $forward",
+            style: TextStyle(color: Colors.grey[600]),
+          )
         ],
       ),
     );
   }
+}
+
+void showSnackBar({BuildContext context, String text}) {
+  Scaffold.of(context).showSnackBar(SnackBar(
+    content: Text(text, style: TextStyle(color: Colors.white)),
+  ));
 }
