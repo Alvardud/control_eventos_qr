@@ -42,7 +42,7 @@ class _ChooseUserState extends State<ChooseUser> {
             return InkWell(
               onTap: () => Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Auth(
-                    name: _companies[item].name,
+                    company: _companies[item],
                     forward: '\"Seleccionar ${widget.name}\"',
                   ))),
               child: ListTile(

@@ -1,18 +1,18 @@
+import 'package:control_eventos_qr/models/company.dart';
 import 'package:flutter/material.dart';
 import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
 
 class Auth extends StatelessWidget {
   final String forward;
-  final String linkImage;
-  final String name;
-  Auth({this.linkImage, this.name, this.forward});
+  final Company company;
+  Auth({this.company, this.forward});
 
   Widget _imageCompany() {
     return Container(
       width: 150.0,
       height: 150.0,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0)),
-      child: linkImage != null
+      child: company.linkLogo != null
           ? Image.asset("link")
           : Icon(
               Icons.account_circle,
@@ -87,7 +87,7 @@ class Auth extends StatelessWidget {
           context: context,
           titleAppBar: "Bienvenido",
           center: true,
-          subtitleAppBar: "$name"),
+          subtitleAppBar: "${company.name}"),
       body: Column(
         children: <Widget>[
           Expanded(
