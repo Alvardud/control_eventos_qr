@@ -6,6 +6,8 @@ import 'package:control_eventos_qr/data/constants.dart' as constant;
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:control_eventos_qr/ui/widgets/CustomButton.widget.dart';
+import 'package:control_eventos_qr/ui/widgets/CustomSnackBar.widget.dart'
+    as csb;
 
 class QrReaderPage extends StatefulWidget {
   @override
@@ -88,7 +90,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
         if (this.ticket == null) {
           Scaffold.of(context)
-              .showSnackBar(_showCustomSnackBar('Ticket no registrado!'));
+              .showSnackBar(csb.customSnackBar(title: 'Ticket no registrado!'));
           controller.resumeCamera();
           return;
         }
@@ -101,17 +103,11 @@ class _QrReaderPageState extends State<QrReaderPage> {
           future.then((void value) => controller.resumeCamera());
         } else {
           Scaffold.of(context)
-              .showSnackBar(_showCustomSnackBar('Ticket registrado!'));
+              .showSnackBar(csb.customSnackBar(title: 'Ticket registrado!'));
           controller.resumeCamera();
         }
       },
     );
-  }
-
-  @override
-  void dispose() {
-    this.controller?.dispose();
-    super.dispose();
   }
 
   _customBottomSheet() {
@@ -121,23 +117,13 @@ class _QrReaderPageState extends State<QrReaderPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          CustomButton(icon: Icons.filter_1, addFunction: _updateTicket),
-          CustomButton(icon: Icons.filter_3, addFunction: _updateTicket),
-          CustomButton(icon: Icons.filter_5, addFunction: _updateTicket),
+          CustomButton(
+              icon: Icons.filter_1, addFunction: _updateTicket, value: 1),
+          CustomButton(
+              icon: Icons.filter_3, addFunction: _updateTicket, value: 3),
+          CustomButton(
+              icon: Icons.filter_5, addFunction: _updateTicket, value: 5),
         ],
-      ),
-    );
-  }
-
-  _showCustomSnackBar(String title) {
-    return SnackBar(
-      content: Text(title),
-      duration: Duration(seconds: 5),
-      action: SnackBarAction(
-        label: 'close',
-        onPressed: () {
-          // Some code to undo the change.
-        },
       ),
     );
   }
@@ -147,7 +133,6 @@ class _QrReaderPageState extends State<QrReaderPage> {
         .collection('tickets')
         .where('ticket', isEqualTo: scanData)
         .getDocuments();
-    //.then((QuerySnapshot snapshot) {
     if (_t.documents.length == 0) {
       // Lunch qr no register
       this.ticket = null;
@@ -160,12 +145,18 @@ class _QrReaderPageState extends State<QrReaderPage> {
     return Future.value(0);
   }
 
-  _updateTicket() {
+  _updateTicket(int value) async {
     var x = this.ticket.data;
-    x['sponsors']['jalasoftware'] = 5;
-    databaseReference
+    x['sponsors']['jalasoftware'] = value;
+    await databaseReference
         .collection('tickets')
         .document(this.ticket.documentID)
         .updateData(x);
+  }
+
+  @override
+  void dispose() {
+    this.controller?.dispose();
+    super.dispose();
   }
 }
