@@ -27,7 +27,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
       appBar: AppBar(
         // centerTitle: true,
         backgroundColor: constant.primaryColor,
-        title: Text("Demo"),
+        title: Text("Scan QR"),
         actions: <Widget>[
           FlatButton(
             child: Icon(
@@ -77,54 +77,31 @@ class _QrReaderPageState extends State<QrReaderPage> {
   void _onQRViewCreated(QRViewController controller, BuildContext context) {
     this.controller = controller;
     controller.scannedDataStream.listen(
-      (scanData) {
+      (scanData) async {
         controller.pauseCamera();
 
-        _searchForTicket(scanData);
+        await _searchForTicket(scanData);
 
         setState(() {
           qrText = scanData;
         });
 
-        if (this.ticket != null) {
-          // first parameter logistic / feria / sponsors
-          // second parameter almuerzo / startup_1 / jala
+        if (this.ticket == null) {
+          Scaffold.of(context)
+              .showSnackBar(_showCustomSnackBar('Ticket no registrado!'));
+          controller.resumeCamera();
+          return;
+        }
+        // first parameter logistic / feria / sponsors
+        // second parameter almuerzo / startup_1 / jala
+        if (this.ticket.data['sponsors']['jalasoftware'] == null) {
+          Future<void> future = showModalBottomSheet(
+              context: context, builder: (context) => _customBottomSheet());
 
-          print(this.ticket.data['sponsors']['jalasoft']);
-          if (this.ticket.data['sponsors']['jalasoft'] == null) {
-            Future<void> future = showModalBottomSheet(
-              context: context,
-              builder: (context) => Container(
-                height: 150.0,
-                color: Colors.red,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    CustomButton(
-                        icon: Icons.filter_1, addFunction: _updateTicket),
-                    CustomButton(
-                        icon: Icons.filter_3, addFunction: _updateTicket),
-                    CustomButton(
-                        icon: Icons.filter_5, addFunction: _updateTicket),
-                  ],
-                ),
-              ),
-            );
-
-            future.then((void value) => controller.resumeCamera());
-          } else {}
+          future.then((void value) => controller.resumeCamera());
         } else {
-          final snackBar = SnackBar(
-            content: Text('Ticket no registrado!'),
-            duration: Duration(seconds: 5),
-            action: SnackBarAction(
-              label: 'close',
-              onPressed: () {
-                // Some code to undo the change.
-              },
-            ),
-          );
-          Scaffold.of(context).showSnackBar(snackBar);
+          Scaffold.of(context)
+              .showSnackBar(_showCustomSnackBar('Ticket registrado!'));
           controller.resumeCamera();
         }
       },
@@ -137,27 +114,55 @@ class _QrReaderPageState extends State<QrReaderPage> {
     super.dispose();
   }
 
-  _searchForTicket(String scanData) {
-    databaseReference
+  _customBottomSheet() {
+    return Container(
+      height: 150.0,
+      color: Colors.red,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          CustomButton(icon: Icons.filter_1, addFunction: _updateTicket),
+          CustomButton(icon: Icons.filter_3, addFunction: _updateTicket),
+          CustomButton(icon: Icons.filter_5, addFunction: _updateTicket),
+        ],
+      ),
+    );
+  }
+
+  _showCustomSnackBar(String title) {
+    return SnackBar(
+      content: Text(title),
+      duration: Duration(seconds: 5),
+      action: SnackBarAction(
+        label: 'close',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+  }
+
+  Future<void> _searchForTicket(String scanData) async {
+    QuerySnapshot _t = await databaseReference
         .collection('tickets')
         .where('ticket', isEqualTo: scanData)
-        .getDocuments()
-        .then((QuerySnapshot snapshot) {
-      if (snapshot.documents.length == 0) {
-        // Lunch qr no register
-        this.ticket = null;
-      }
-      if (snapshot.documents.length == 1) {
-        // Lunch qr register Assign points or meals
-        this.ticket = snapshot.documents[0];
-        print(this.ticket);
-      }
-    });
+        .getDocuments();
+    //.then((QuerySnapshot snapshot) {
+    if (_t.documents.length == 0) {
+      // Lunch qr no register
+      this.ticket = null;
+    }
+    if (_t.documents.length == 1) {
+      // Lunch qr register Assign points or meals
+      this.ticket = _t.documents[0];
+      print(this.ticket);
+    }
+    return Future.value(0);
   }
 
   _updateTicket() {
     var x = this.ticket.data;
-    x['sponsors']['jalasoft'] = 5;
+    x['sponsors']['jalasoftware'] = 5;
     databaseReference
         .collection('tickets')
         .document(this.ticket.documentID)
