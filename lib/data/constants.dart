@@ -12,12 +12,18 @@ Color accentColor = _convertColor("#F2884B");
 Color tertiaryColor = _convertColor("#A66038");
 Color neutralColor = _convertColor("#0D0D0D");
 
-const Map<String, String> userType = {
-  "Organizadores": "Organizadores del evento con labores logísticas",
-  "Auspiciadores":
-      "Auspiciadores que deseen ofrecer materiales a los participantes",
-  "Grupos de estudio": "Grupos de estudio del GDG",
-  "Participantes feria de proyectos": "Participantes de ferias de proyectos"
+const List<String> userType = [
+  "Organizadores del evento con labores logísticas",
+  "Auspiciadores que deseen ofrecer materiales a los participantes",
+  "Grupos de estudio del GDG",
+  "Participantes de ferias de proyectos"
+];
+
+const Map<String, String> keyNameUser = {
+  "Organizadores": "Organizadores",
+  "Auspiciadores": "empresa de auspicio",
+  "Grupos de estudio": "grupo de estudio",
+  "Participantes feria de proyectos": "proyecto"
 };
 
 const List<IconData> userTypeIcon = [
