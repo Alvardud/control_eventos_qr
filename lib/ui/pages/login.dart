@@ -15,6 +15,7 @@ class Login extends StatelessWidget {
         itemBuilder: (context, item) {
           var _values = constant.keyNameUser.values.toList();
           var _keys = constant.keyNameUser.keys.toList();
+          var _icons = constant.iconsUser.values.toList();
           return InkWell(
             onTap: () => Navigator.push(
                 context,
@@ -26,13 +27,20 @@ class Login extends StatelessWidget {
                             forward: '\"Seleccionar Usuario\"',
                           )
                         : Auth(
-                          company: constant.companyOrganizer,
-                          forward: '\"Seleccionar Usuario\"',
-                        ))),
+                            company: constant.companyOrganizer,
+                            forward: '\"Seleccionar Usuario\"',
+                          ))),
             child: ListTile(
               contentPadding:
                   EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
-              leading: Icon(constant.userTypeIcon[item]),
+              leading: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                    color: constant.colorsDefault[item % 6],
+                    borderRadius: BorderRadius.circular(25.0)),
+                child: Icon(_icons[item], size: 28.0, color: Colors.black),
+              ),
               title: Text(
                 _keys[item],
                 style: TextStyle(fontSize: 20.0),

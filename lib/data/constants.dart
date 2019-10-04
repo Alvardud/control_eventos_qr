@@ -27,14 +27,33 @@ const Map<String, String> keyNameUser = {
   "Participantes feria de proyectos": "proyecto"
 };
 
-const String errorLoginText = "Error de autenticación, revise: \n\t*\tNo tener el campo vacio\n\t*\tColocar la contraseña correcta";
+const Map<String, IconData> iconsUser = {
+  "organizer": IconData(0xe906, fontFamily: 'Custom Icons'),
+  "auspiciadores": IconData(0xe903, fontFamily: 'Custom Icons'),
+  "grupos de estudio": IconData(0xe904, fontFamily: 'Custom Icons'),
+  "feria de proyectos": IconData(0xe902, fontFamily: 'Custom Icons'),
+};
 
-const List<IconData> userTypeIcon = [
-  Icons.account_box,
-  Icons.store,
-  Icons.book,
-  Icons.location_city
-];
+const Map<String, IconData> iconsSouvenir = {
+  "regalo": IconData(0xe900, fontFamily: 'Custom Icons'),
+  "desayuno": IconData(0xe901, fontFamily: 'Custom Icons'),
+  "almuerzo": IconData(0xe905, fontFamily: 'Custom Icons'),
+  "souvenir": IconData(0xe907, fontFamily: 'Custom Icons'),
+  "adicionar": IconData(0xe908, fontFamily: 'Custom Icons'),
+  "puntos": IconData(0xe909, fontFamily: 'Custom Icons'),
+};
+
+List<Color> colorsDefault = [
+  Colors.red[200],
+  Colors.blue[200],
+  Colors.green[200],
+  Colors.amber[200],
+  Colors.purple[200],
+  Colors.teal[200],
+]; 
+
+const String errorLoginText =
+    "Error de autenticación, revise: \n\t*\tNo tener el campo vacio\n\t*\tColocar la contraseña correcta";
 
 Company companyOrganizer = Company(
   name: 'Organizador/a',
