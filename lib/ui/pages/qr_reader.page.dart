@@ -57,7 +57,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
                     borderLength: 20,
                     borderWidth: 5,
                     cutOutSize: 200,
-                    overlayColor: Color.fromRGBO(0, 0, 0, 60)),
+                    overlayColor: Color.fromRGBO(0, 0, 0, 30)),
               ),
               Positioned.fill(
                 child: Padding(
@@ -89,14 +89,25 @@ class _QrReaderPageState extends State<QrReaderPage> {
         });
 
         if (this.ticket == null) {
-          Scaffold.of(context)
-              .showSnackBar(csb.customSnackBar(title: 'Ticket no registrado!'));
+          await databaseReference.collection('tickets').add({
+            'ticket': scanData,
+            'feria': {},
+            'logistic': {
+              'almuerzo': false,
+              'refrigerio': false,
+              'registro': false,
+              'souvenirs': false,
+            },
+            'sponsors': {}
+          });
+          Scaffold.of(context).showSnackBar(
+              csb.customSnackBar(title: 'Ticket registrado correctamente!'));
           controller.resumeCamera();
           return;
         }
         // first parameter logistic / feria / sponsors
         // second parameter almuerzo / startup_1 / jala
-        if (this.ticket.data['sponsors']['jalasoftware'] == null) {
+        if (this.ticket.data['feria']['startup_1'] == null) {
           Future<void> future = showModalBottomSheet(
               context: context, builder: (context) => _customBottomSheet());
 
@@ -147,7 +158,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   _updateTicket(int value) async {
     var x = this.ticket.data;
-    x['sponsors']['jalasoftware'] = value;
+    x['feria']['startup_1'] = value;
     await databaseReference
         .collection('tickets')
         .document(this.ticket.documentID)
