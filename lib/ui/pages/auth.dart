@@ -56,6 +56,12 @@ class Auth extends StatelessWidget {
               style: TextStyle(color: Colors.black54),
               textAlign: TextAlign.center,
             ),
+            RaisedButton(
+              child: Text('scan'),
+              onPressed: () {
+                //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>));
+              },
+            )
           ],
         ),
       ),
