@@ -21,53 +21,66 @@ class _ChooseUserState extends State<ChooseUser> {
   @override
   void initState() {
     super.initState();
-    firebase.getCompanies("${constant.codeUser[widget.code]}").then((value) {
-      _companies = value;
-    });
+    // setState(() {
+    //   firebase.getCompanies("${constant.codeUser[widget.code]}").then((value) {
+    //     _companies.addAll(value);
+    //   });
+    // });
   }
 
   Widget _body(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 36.0),
       color: Colors.white,
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        itemCount: _companies.length,
-        itemBuilder: (context, item) {
-          if (_companies.length != 0) {
-            return InkWell(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Auth(
-                            company: _companies[item],
-                            forward: '\"Seleccionar ${widget.name}\"',
-                          ))),
-              child: ListTile(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 4.0, horizontal: 0.0),
-                leading: Container(
-                  height: 75.0,
-                  width: 75.0,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(75.0)),
-                  child: _companies[item].linkLogo != null
-                      ? Image.asset("assets")
-                      : Icon(
-                          Icons.account_circle,
-                          size: 50.0,
-                        ),
-                ),
-                title: Text(
-                  "${_companies[item].name}",
-                  style: TextStyle(fontSize: 20.0),
-                ),
-                subtitle: Text("${_companies[item].type}"),
-              ),
+      child: FutureBuilder(
+        future: firebase.getCompanies("${constant.codeUser[widget.code]}"),
+        builder: (BuildContext context, AsyncSnapshot snap) {
+          if (!snap.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          } else {
-            return common.NoItemsWidget();
           }
+          return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: snap.data.length,
+            itemBuilder: (context, item) {
+              _companies = snap.data;
+              if (_companies.length != 0) {
+                return InkWell(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Auth(
+                                company: _companies[item],
+                                forward: '\"Seleccionar ${widget.name}\"',
+                              ))),
+                  child: ListTile(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 0.0),
+                    leading: Container(
+                      height: 75.0,
+                      width: 75.0,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(75.0)),
+                      child: _companies[item].linkLogo != null
+                          ? Image.asset("assets")
+                          : Icon(
+                              Icons.account_circle,
+                              size: 50.0,
+                            ),
+                    ),
+                    title: Text(
+                      "${_companies[item].name}",
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    subtitle: Text("${_companies[item].type}"),
+                  ),
+                );
+              } else {
+                return common.NoItemsWidget();
+              }
+            },
+          );
         },
       ),
     );

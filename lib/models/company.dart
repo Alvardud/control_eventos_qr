@@ -13,7 +13,7 @@ class Company {
     this.pass,
   });
 
-  factory Company.fromSnapshot(dynamic snapshot) {
+  factory Company.fromSnapshot(DocumentSnapshot snapshot) {
     return Company(
         linkLogo: null,
         name: snapshot.data['name'],
