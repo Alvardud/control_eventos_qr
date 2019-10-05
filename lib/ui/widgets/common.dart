@@ -54,7 +54,7 @@ class NoItemsWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[],
+          children: <Widget>[Text("No hay elementos que mostrar")],
         ),
       ),
     );

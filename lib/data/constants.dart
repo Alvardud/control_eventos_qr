@@ -27,6 +27,13 @@ const Map<String, String> keyNameUser = {
   "Participantes feria de proyectos": "proyecto"
 };
 
+const List<String> codeUser = [
+  "organizadores",
+  "auspiciadores",
+  "grupo_estudio",
+  "feria_proyectos",
+];
+
 const Map<String, IconData> iconsUser = {
   "organizer": IconData(0xe906, fontFamily: 'Custom Icons'),
   "auspiciadores": IconData(0xe903, fontFamily: 'Custom Icons'),
@@ -35,10 +42,11 @@ const Map<String, IconData> iconsUser = {
 };
 
 const Map<String, IconData> iconsSouvenir = {
-  "regalo": IconData(0xe900, fontFamily: 'Custom Icons'),
+  //Organizers
   "desayuno": IconData(0xe901, fontFamily: 'Custom Icons'),
   "almuerzo": IconData(0xe905, fontFamily: 'Custom Icons'),
   "souvenir": IconData(0xe907, fontFamily: 'Custom Icons'),
+  "regalo": IconData(0xe900, fontFamily: 'Custom Icons'),
   "adicionar": IconData(0xe908, fontFamily: 'Custom Icons'),
   "puntos": IconData(0xe909, fontFamily: 'Custom Icons'),
 };

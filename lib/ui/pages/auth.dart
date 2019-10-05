@@ -1,5 +1,6 @@
 import 'package:control_eventos_qr/models/company.dart';
 import 'package:control_eventos_qr/ui/pages/home.dart';
+import 'package:control_eventos_qr/ui/pages/qr_reader.page.dart';
 import 'package:flutter/material.dart';
 import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
 import 'package:control_eventos_qr/data/constants.dart' as constant;
@@ -31,7 +32,8 @@ class _AuthState extends State<Auth> {
 
   void _logIn(BuildContext context) {
     if (_isVerified) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) => QrReaderPage()));
     } else {
       common.showSnackBar(context: context, text: constant.errorLoginText);
     }
@@ -126,12 +128,7 @@ class _AuthState extends State<Auth> {
               style: TextStyle(color: Colors.black54),
               textAlign: TextAlign.center,
             ),
-            RaisedButton(
-              child: Text('scan'),
-              onPressed: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>));
-              },
-            )
+            _sendPasswordBoton(context)
           ],
         ),
       ),

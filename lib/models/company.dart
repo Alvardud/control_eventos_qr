@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Company {
   String name;
   String type;
@@ -11,11 +13,11 @@ class Company {
     this.pass,
   });
 
-  factory Company.fromSnapshot(Map<String, String> snapshot) {
+  factory Company.fromSnapshot(dynamic snapshot) {
     return Company(
-        linkLogo: snapshot["link_logo"],
-        name: snapshot['name'],
-        type: snapshot['type'],
-        pass: snapshot['pass']);
+        linkLogo: null,
+        name: snapshot.data['name'],
+        type: snapshot.data['type'],
+        pass: snapshot.data['pass']);
   }
 }

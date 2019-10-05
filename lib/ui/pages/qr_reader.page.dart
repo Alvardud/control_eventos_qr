@@ -139,6 +139,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
     );
   }
 
+  //Firebase call query
   Future<void> _searchForTicket(String scanData) async {
     QuerySnapshot _t = await databaseReference
         .collection('tickets')

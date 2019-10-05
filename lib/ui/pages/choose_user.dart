@@ -2,6 +2,8 @@ import 'package:control_eventos_qr/models/company.dart';
 import 'package:control_eventos_qr/ui/pages/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
+import 'package:control_eventos_qr/utils/firebase_requests.dart' as firebase;
+import 'package:control_eventos_qr/data/constants.dart' as constant;
 
 class ChooseUser extends StatefulWidget {
   final String forward;
@@ -14,20 +16,14 @@ class ChooseUser extends StatefulWidget {
 }
 
 class _ChooseUserState extends State<ChooseUser> {
-  List<Company> _companies = [
-    Company(name: "JalaSoft", type: "Empresa de Software", linkLogo: null),
-    Company(name: "TopTal", type: "Empresa de Software", linkLogo: null),
-    Company(name: "Ultra Casas", type: "Startup Boliviana", linkLogo: null),
-    Company(
-        name: "Google Developers",
-        type: "Comunidad de desarrolladores",
-        linkLogo: null),
-  ];
+  List<Company> _companies = [];
 
   @override
   void initState() {
     super.initState();
-    //firebase request list
+    firebase.getCompanies("${constant.codeUser[widget.code]}").then((value) {
+      _companies = value;
+    });
   }
 
   Widget _body(BuildContext context) {
@@ -41,10 +37,12 @@ class _ChooseUserState extends State<ChooseUser> {
           if (_companies.length != 0) {
             return InkWell(
               onTap: () => Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Auth(
-                    company: _companies[item],
-                    forward: '\"Seleccionar ${widget.name}\"',
-                  ))),
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Auth(
+                            company: _companies[item],
+                            forward: '\"Seleccionar ${widget.name}\"',
+                          ))),
               child: ListTile(
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 4.0, horizontal: 0.0),
@@ -55,7 +53,10 @@ class _ChooseUserState extends State<ChooseUser> {
                       BoxDecoration(borderRadius: BorderRadius.circular(75.0)),
                   child: _companies[item].linkLogo != null
                       ? Image.asset("assets")
-                      : Icon(Icons.account_circle,size: 50.0,),
+                      : Icon(
+                          Icons.account_circle,
+                          size: 50.0,
+                        ),
                 ),
                 title: Text(
                   "${_companies[item].name}",
