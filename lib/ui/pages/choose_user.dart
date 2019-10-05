@@ -21,16 +21,37 @@ class _ChooseUserState extends State<ChooseUser> {
   @override
   void initState() {
     super.initState();
-    // setState(() {
-    //   firebase.getCompanies("${constant.codeUser[widget.code]}").then((value) {
-    //     _companies.addAll(value);
-    //   });
-    // });
+  }
+
+  Widget _elementList({int item, String urlImage}) {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+      leading: Container(
+        height: 50.0,
+        width: 50.0,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(50.0)),
+        child: urlImage != null
+            ? Image.asset(
+                urlImage,
+                fit: BoxFit.contain,
+              )
+            : Icon(
+                Icons.account_circle,
+                size: 50.0,
+              ),
+      ),
+      title: Text(
+        "${_companies[item].name}",
+        style: TextStyle(fontSize: 20.0),
+      ),
+      subtitle: Text("${_companies[item].type}"),
+    );
   }
 
   Widget _body(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 36.0),
+      padding: EdgeInsets.only(top: 36.0, left: 8.0, right: 8.0),
       color: Colors.white,
       child: FutureBuilder(
         future: firebase.getCompanies("${constant.codeUser[widget.code]}"),
@@ -45,37 +66,18 @@ class _ChooseUserState extends State<ChooseUser> {
             itemCount: snap.data.length,
             itemBuilder: (context, item) {
               _companies = snap.data;
+              var image = constant.urlImage[widget.code - 1].values.toList();
               if (_companies.length != 0) {
                 return InkWell(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Auth(
-                                company: _companies[item],
-                                forward: '\"Seleccionar ${widget.name}\"',
-                              ))),
-                  child: ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 0.0),
-                    leading: Container(
-                      height: 75.0,
-                      width: 75.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(75.0)),
-                      child: _companies[item].linkLogo != null
-                          ? Image.asset("assets")
-                          : Icon(
-                              Icons.account_circle,
-                              size: 50.0,
-                            ),
-                    ),
-                    title: Text(
-                      "${_companies[item].name}",
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    subtitle: Text("${_companies[item].type}"),
-                  ),
-                );
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Auth(
+                                  imageUrl: image[item],
+                                  company: _companies[item],
+                                  forward: '\"Seleccionar ${widget.name}\"',
+                                ))),
+                    child: _elementList(item: item, urlImage: image[item]));
               } else {
                 return common.NoItemsWidget();
               }

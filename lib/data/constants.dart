@@ -34,6 +34,27 @@ const List<String> codeUser = [
   "feria_proyectos",
 ];
 
+const List<Map<String, String>> urlImage = [
+  {
+    "intervenciones_urbanas":"assets/images/piu.png",
+    "comtect":"assets/images/comtec.png",
+    "jalasoft":"assets/images/jala.png",
+    "ucb":"assets/images/ucb.png"
+  },
+  {
+    "mobile":"assets/images/mobile.png",
+    "ia":"assets/images/tensorflow.png",
+    "cloud":"assets/images/cloud.png",
+    "firebase":"assets/images/firebase.png",
+    "marketing":"assets/images/marketing.png",
+    "asistant":"assets/images/asistant.png",
+    "web":"assets/images/web.png"
+  },
+  {
+    null:null
+  }
+];
+
 const Map<String, IconData> iconsUser = {
   "organizer": IconData(0xe906, fontFamily: 'Custom Icons'),
   "auspiciadores": IconData(0xe903, fontFamily: 'Custom Icons'),

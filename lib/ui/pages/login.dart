@@ -27,6 +27,7 @@ class Login extends StatelessWidget {
                             forward: '\"Seleccionar Usuario\"',
                           )
                         : Auth(
+                            imageUrl: "assets/images/gdg.png",
                             company: constant.companyOrganizer,
                             forward: '\"Seleccionar Usuario\"',
                           ))),

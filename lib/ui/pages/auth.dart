@@ -1,5 +1,4 @@
 import 'package:control_eventos_qr/models/company.dart';
-import 'package:control_eventos_qr/ui/pages/home.dart';
 import 'package:control_eventos_qr/ui/pages/qr_reader.page.dart';
 import 'package:flutter/material.dart';
 import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
@@ -8,7 +7,8 @@ import 'package:control_eventos_qr/data/constants.dart' as constant;
 class Auth extends StatefulWidget {
   final String forward;
   final Company company;
-  Auth({this.company, this.forward});
+  final String imageUrl;
+  Auth({this.company, this.forward, this.imageUrl});
 
   @override
   _AuthState createState() => _AuthState();
@@ -44,8 +44,8 @@ class _AuthState extends State<Auth> {
       width: 150.0,
       height: 150.0,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0)),
-      child: widget.company.linkLogo != null
-          ? Image.asset("link")
+      child: widget.imageUrl != null
+          ? Image.asset(widget.imageUrl)
           : Icon(
               Icons.account_circle,
               size: 150.0,
@@ -74,7 +74,9 @@ class _AuthState extends State<Auth> {
             color: _isVerified ? Colors.green : Colors.red, fontSize: 24.0),
         controller: _textEditingController,
         onChanged: (String str) => _verified(str),
-        onSubmitted: (str) => _logIn(context),
+        onSubmitted: (str) {
+          Future.delayed(Duration(milliseconds: 200), () => _logIn(context));
+        },
       ),
     );
   }
@@ -124,7 +126,7 @@ class _AuthState extends State<Auth> {
             ),
             _passwordBox(context),
             Text(
-              "En caso de no tener uno, solicitalo a los organizadores del evento",
+              "En caso de no tener uno, solicítalo a los organizadores del evento",
               style: TextStyle(color: Colors.black54),
               textAlign: TextAlign.center,
             ),
