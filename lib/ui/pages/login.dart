@@ -3,6 +3,7 @@ import 'package:control_eventos_qr/data/constants.dart' as constant;
 import 'package:control_eventos_qr/ui/pages/auth.dart';
 import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
 import 'package:control_eventos_qr/ui/pages/choose_user.dart';
+import 'package:flutter/services.dart';
 
 class Login extends StatelessWidget {
   Widget _body(BuildContext context) {
@@ -56,12 +57,18 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: common.appBarLogin(
-          context: context,
-          titleAppBar: "Bienvenido",
-          subtitleAppBar: "Elige tu tipo de usuario"),
-      body: _body(context),
+    return WillPopScope(
+      onWillPop: () {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        return;    //verfied
+      },
+      child: Scaffold(
+        appBar: common.appBarLogin(
+            context: context,
+            titleAppBar: "Bienvenido",
+            subtitleAppBar: "Elige tu tipo de usuario"),
+        body: _body(context),
+      ),
     );
   }
 }

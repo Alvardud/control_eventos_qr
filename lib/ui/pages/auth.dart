@@ -3,6 +3,7 @@ import 'package:control_eventos_qr/ui/pages/qr_reader.page.dart';
 import 'package:flutter/material.dart';
 import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
 import 'package:control_eventos_qr/data/constants.dart' as constant;
+import 'package:control_eventos_qr/utils/preferences.dart' as preferences;
 
 class Auth extends StatefulWidget {
   final String forward;
@@ -30,8 +31,16 @@ class _AuthState extends State<Auth> {
     }
   }
 
-  void _logIn(BuildContext context) {
+  Future<void> _saveData() async {
+    await preferences.addBool(key: 'login', value: true);
+    await preferences.addString(
+        key: "name", value: "${widget.company.getName}");
+    await preferences.addString(key: "link", value: "${widget.imageUrl}");
+  }
+
+  void _logIn(BuildContext context) async {
     if (_isVerified) {
+      await _saveData();
       Navigator.push(context,
           MaterialPageRoute(builder: (BuildContext context) => QrReaderPage()));
     } else {

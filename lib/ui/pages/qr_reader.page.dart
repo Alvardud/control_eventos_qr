@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:control_eventos_qr/data/constants.dart' as constant;
+import 'package:flutter/services.dart';
 import 'package:qr_code_scanner/qr_scanner_overlay_shape.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:control_eventos_qr/ui/widgets/CustomButton.widget.dart';
@@ -25,52 +24,58 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // centerTitle: true,
-        backgroundColor: constant.primaryColor,
-        title: Text("Scan QR"),
-        actions: <Widget>[
-          FlatButton(
-            child: Icon(
-              Icons.settings,
-              color: Colors.white70,
-            ),
-            onPressed: () {},
-          )
-        ],
-      ),
-      body: Builder(
-        builder: (context) => Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: (Stack(
-            children: <Widget>[
-              QRView(
-                key: qrKey,
-                onQRViewCreated: (QRViewController controller) {
-                  _onQRViewCreated(controller, context);
-                },
-                overlay: QrScannerOverlayShape(
-                    borderColor: Colors.red,
-                    borderRadius: 10,
-                    borderLength: 20,
-                    borderWidth: 5,
-                    cutOutSize: 200,
-                    overlayColor: Color.fromRGBO(0, 0, 0, 30)),
+    return WillPopScope(
+      onWillPop: () {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+        return;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: constant.primaryColor,
+          title: Text("Scan QR"),
+          actions: <Widget>[
+            FlatButton(
+              child: Icon(
+                Icons.settings,
+                color: Colors.white70,
               ),
-              Positioned.fill(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    'Align the QR code within \n the frame to scan.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white70),
+              onPressed: () {},
+            )
+          ],
+        ),
+        body: Builder(
+          builder: (context) => Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: (Stack(
+              children: <Widget>[
+                QRView(
+                  key: qrKey,
+                  onQRViewCreated: (QRViewController controller) {
+                    _onQRViewCreated(controller, context);
+                  },
+                  overlay: QrScannerOverlayShape(
+                      borderColor: Colors.red,
+                      borderRadius: 10,
+                      borderLength: 20,
+                      borderWidth: 5,
+                      cutOutSize: 200,
+                      overlayColor: Color.fromRGBO(0, 0, 0, 30)),
+                ),
+                Positioned.fill(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Align the QR code within \n the frame to scan.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white70),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
+          ),
         ),
       ),
     );
