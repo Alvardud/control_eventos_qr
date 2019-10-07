@@ -4,9 +4,10 @@ import 'package:control_eventos_qr/ui/pages/login.dart';
 import 'package:flutter/services.dart';
 import 'package:control_eventos_qr/utils/preferences.dart' as preferences;
 
-void main() async{
+void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  WidgetsFlutterBinding.ensureInitialized();
   bool _isLogin = await preferences.getBool(key: 'login');
   runApp(MyApp(isLogin: _isLogin));
 }
