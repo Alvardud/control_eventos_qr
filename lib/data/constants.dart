@@ -5,6 +5,8 @@ Color _convertColor(String x) {
   return Color(int.parse(x.substring(1, 7), radix: 16) + 0xFF000000);
 }
 
+const collectionDefault = "tickets";
+
 //Theme Color
 
 Color primaryColor = _convertColor("#012326");
@@ -36,23 +38,21 @@ const List<String> codeUser = [
 
 const List<Map<String, String>> urlImage = [
   {
-    "intervenciones_urbanas":"assets/images/piu.png",
-    "comtect":"assets/images/comtec.png",
-    "jalasoft":"assets/images/jala.png",
-    "ucb":"assets/images/ucb.png"
+    "intervenciones_urbanas": "assets/images/piu.png",
+    "comtect": "assets/images/comtec.png",
+    "jalasoft": "assets/images/jala.png",
+    "ucb": "assets/images/ucb.png"
   },
   {
-    "mobile":"assets/images/mobile.png",
-    "ia":"assets/images/tensorflow.png",
-    "cloud":"assets/images/cloud.png",
-    "firebase":"assets/images/firebase.png",
-    "marketing":"assets/images/marketing.png",
-    "asistant":"assets/images/asistant.png",
-    "web":"assets/images/web.png"
+    "mobile": "assets/images/mobile.png",
+    "ia": "assets/images/tensorflow.png",
+    "cloud": "assets/images/cloud.png",
+    "firebase": "assets/images/firebase.png",
+    "marketing": "assets/images/marketing.png",
+    "asistant": "assets/images/asistant.png",
+    "web": "assets/images/web.png"
   },
-  {
-    null:null
-  }
+  {null: null}
 ];
 
 const Map<String, IconData> iconsUser = {
@@ -79,7 +79,7 @@ List<Color> colorsDefault = [
   Colors.amber[200],
   Colors.purple[200],
   Colors.teal[200],
-]; 
+];
 
 const String errorLoginText =
     "Error de autenticación, revise: \n\t*\tNo tener el campo vacio\n\t*\tColocar la contraseña correcta";
@@ -88,4 +88,5 @@ Company companyOrganizer = Company(
   name: 'Organizador/a',
   linkLogo: null,
   pass: "1234",
+  type: 'Organizer',
 );

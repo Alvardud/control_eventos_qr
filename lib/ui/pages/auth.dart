@@ -40,9 +40,12 @@ class _AuthState extends State<Auth> {
 
   void _logIn(BuildContext context) async {
     if (_isVerified) {
-      await _saveData();
-      Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) => QrReaderPage()));
+      _saveData();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  QrReaderPage(company: widget.company)));
     } else {
       common.showSnackBar(context: context, text: constant.errorLoginText);
     }
