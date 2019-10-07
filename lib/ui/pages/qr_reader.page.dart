@@ -8,8 +8,12 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:control_eventos_qr/ui/widgets/CustomButton.widget.dart';
 import 'package:control_eventos_qr/ui/widgets/CustomSnackBar.widget.dart'
     as csb;
+import 'package:control_eventos_qr/models/company.dart';
 
 class QrReaderPage extends StatefulWidget {
+  final Company company;
+
+  QrReaderPage({this.company});
   @override
   _QrReaderPageState createState() => _QrReaderPageState();
 }
@@ -27,7 +31,6 @@ class _QrReaderPageState extends State<QrReaderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // centerTitle: true,
         backgroundColor: constant.primaryColor,
         title: Text("Scan QR"),
         actions: <Widget>[
@@ -89,33 +92,27 @@ class _QrReaderPageState extends State<QrReaderPage> {
         });
 
         if (this.ticket == null) {
-          await databaseReference.collection('tickets').add({
-            'ticket': scanData,
-            'feria': {},
-            'logistic': {
-              'almuerzo': false,
-              'refrigerio': false,
-              'registro': false,
-              'souvenirs': false,
-            },
-            'sponsors': {}
-          });
-          Scaffold.of(context).showSnackBar(
-              csb.customSnackBar(title: 'Ticket registrado correctamente!'));
+          Scaffold.of(context)
+              .showSnackBar(csb.customSnackBar(title: 'Ticket no registrado!'));
           controller.resumeCamera();
           return;
         }
-        // first parameter logistic / feria / sponsors
-        // second parameter almuerzo / startup_1 / jala
-        if (this.ticket.data['feria']['startup_1'] == null) {
-          Future<void> future = showModalBottomSheet(
-              context: context, builder: (context) => _customBottomSheet());
 
-          future.then((void value) => controller.resumeCamera());
+        if (widget.company.type == 'Organizer') {
         } else {
-          Scaffold.of(context)
-              .showSnackBar(csb.customSnackBar(title: 'Ticket registrado!'));
-          controller.resumeCamera();
+          // first parameter logistic / feria / sponsors
+          // second parameter almuerzo / startup_1 / jala
+          if (this.ticket.data[widget.company.type][widget.company.name] ==
+              null) {
+            Future<void> future = showModalBottomSheet(
+                context: context, builder: (context) => _customBottomSheet());
+
+            future.then((void value) => controller.resumeCamera());
+          } else {
+            Scaffold.of(context)
+                .showSnackBar(csb.customSnackBar(title: 'Ticket registrado!'));
+            controller.resumeCamera();
+          }
         }
       },
     );
@@ -142,8 +139,8 @@ class _QrReaderPageState extends State<QrReaderPage> {
   //Firebase call query
   Future<void> _searchForTicket(String scanData) async {
     QuerySnapshot _t = await databaseReference
-        .collection('tickets')
-        .where('ticket', isEqualTo: scanData)
+        .collection(constant.collectionDefault)
+        .where('hash', isEqualTo: scanData)
         .getDocuments();
     if (_t.documents.length == 0) {
       // Lunch qr no register
@@ -152,16 +149,15 @@ class _QrReaderPageState extends State<QrReaderPage> {
     if (_t.documents.length == 1) {
       // Lunch qr register Assign points or meals
       this.ticket = _t.documents[0];
-      print(this.ticket);
     }
     return Future.value(0);
   }
 
   _updateTicket(int value) async {
     var x = this.ticket.data;
-    x['feria']['startup_1'] = value;
+    x[widget.company.type][widget.company.name] = value;
     await databaseReference
-        .collection('tickets')
+        .collection(constant.collectionDefault)
         .document(this.ticket.documentID)
         .updateData(x);
   }

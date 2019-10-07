@@ -45,7 +45,7 @@ class _ChooseUserState extends State<ChooseUser> {
         "${_companies[item].name}",
         style: TextStyle(fontSize: 20.0),
       ),
-      subtitle: Text("${_companies[item].type}"),
+      subtitle: Text("${_companies[item].desc}"),
     );
   }
 
