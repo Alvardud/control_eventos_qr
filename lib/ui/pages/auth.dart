@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:control_eventos_qr/models/company.dart';
 import 'package:control_eventos_qr/ui/pages/qr_reader.page.dart';
 import 'package:flutter/material.dart';
@@ -34,18 +36,15 @@ class _AuthState extends State<Auth> {
   Future<void> _saveData() async {
     await preferences.addBool(key: 'login', value: true);
     await preferences.addString(
-        key: "name", value: "${widget.company.getName}");
+        key: "name", value: jsonEncode(widget.company.toJson()));
     await preferences.addString(key: "link", value: "${widget.imageUrl}");
   }
 
   void _logIn(BuildContext context) async {
     if (_isVerified) {
       _saveData();
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  QrReaderPage(company: widget.company)));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (BuildContext context) => QrReaderPage()));
     } else {
       common.showSnackBar(context: context, text: constant.errorLoginText);
     }

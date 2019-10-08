@@ -31,4 +31,15 @@ class Company {
         desc: snapshot.data['desc'],
         pass: snapshot.data['pass']);
   }
+
+  Company.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        type = json['type'],
+        desc = json['desc'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'type': type,
+        'desc': desc,
+      };
 }

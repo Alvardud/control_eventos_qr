@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:control_eventos_qr/data/constants.dart' as constant;
@@ -8,11 +10,9 @@ import 'package:control_eventos_qr/ui/widgets/CustomButton.widget.dart';
 import 'package:control_eventos_qr/ui/widgets/CustomSnackBar.widget.dart'
     as csb;
 import 'package:control_eventos_qr/models/company.dart';
+import 'package:control_eventos_qr/utils/preferences.dart' as preferences;
 
 class QrReaderPage extends StatefulWidget {
-  final Company company;
-
-  QrReaderPage({this.company});
   @override
   _QrReaderPageState createState() => _QrReaderPageState();
 }
@@ -22,12 +22,31 @@ class _QrReaderPageState extends State<QrReaderPage> {
   final databaseReference = Firestore.instance;
 
   var qrText = "";
+
+  Company _company;
   DocumentSnapshot ticket;
 
   QRViewController controller;
 
   @override
+  void initState() {
+    super.initState();
+
+    _getCompany();
+  }
+
+  void _getCompany() async {
+    await preferences.getString(key: 'name').then((value) {
+      setState(() {
+        print(value);
+        this._company = Company.fromJson(jsonDecode(value));
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('hola hola');
     return WillPopScope(
       onWillPop: () {
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
@@ -103,12 +122,11 @@ class _QrReaderPageState extends State<QrReaderPage> {
           return;
         }
 
-        if (widget.company.type == 'Organizer') {
+        if (_company.type == 'Organizer') {
         } else {
           // first parameter logistic / feria / sponsors
           // second parameter almuerzo / startup_1 / jala
-          if (this.ticket.data[widget.company.type][widget.company.name] ==
-              null) {
+          if (this.ticket.data[_company.type][_company.name] == null) {
             Future<void> future = showModalBottomSheet(
                 context: context, builder: (context) => _customBottomSheet());
 
@@ -160,7 +178,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   _updateTicket(int value) async {
     var x = this.ticket.data;
-    x[widget.company.type][widget.company.name] = value;
+    x[_company.type][_company.name] = value;
     await databaseReference
         .collection(constant.collectionDefault)
         .document(this.ticket.documentID)
