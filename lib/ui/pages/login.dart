@@ -9,7 +9,7 @@ class Login extends StatelessWidget {
   Widget _body(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 36.0),
-      color: Colors.white,
+      color: constant.primaryColor,
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         itemCount: constant.userType.length,
@@ -45,9 +45,12 @@ class Login extends StatelessWidget {
               ),
               title: Text(
                 _keys[item],
-                style: TextStyle(fontSize: 20.0),
+                style: TextStyle(fontSize: 20.0, color: Colors.white),
               ),
-              subtitle: Text(constant.userType[item]),
+              subtitle: Text(
+                constant.userType[item],
+                style: TextStyle(color: Colors.grey[400]),
+              ),
             ),
           );
         },
@@ -60,9 +63,10 @@ class Login extends StatelessWidget {
     return WillPopScope(
       onWillPop: () {
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-        return;    //verfied
+        return;
       },
       child: Scaffold(
+        backgroundColor: constant.primaryColor,
         appBar: common.appBarLogin(
             context: context,
             titleAppBar: "Bienvenido",

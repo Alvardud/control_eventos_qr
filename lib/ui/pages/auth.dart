@@ -50,20 +50,7 @@ class _AuthState extends State<Auth> {
     }
   }
 
-  Widget _imageCompany() {
-    return Container(
-      width: 150.0,
-      height: 150.0,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0)),
-      child: widget.imageUrl != null
-          ? Image.asset(widget.imageUrl)
-          : Icon(
-              Icons.account_circle,
-              size: 150.0,
-              color: Colors.grey,
-            ),
-    );
-  }
+  
 
   Widget _passwordBox(BuildContext context) {
     return Container(
@@ -71,7 +58,7 @@ class _AuthState extends State<Auth> {
       height: 50.0,
       width: 200.0,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.black54),
+          border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(8.0)),
       child: TextField(
         decoration: InputDecoration(
@@ -80,7 +67,7 @@ class _AuthState extends State<Auth> {
             focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent))),
         textAlign: TextAlign.center,
-        cursorColor: Colors.black,
+        cursorColor: Colors.white,
         style: TextStyle(
             color: _isVerified ? Colors.green : Colors.red, fontSize: 24.0),
         controller: _textEditingController,
@@ -118,7 +105,7 @@ class _AuthState extends State<Auth> {
   Widget _body(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 16.0, right: 16.0, left: 16.0),
-      color: Colors.white,
+      color: constant.primaryColor,
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         scrollDirection: Axis.vertical,
@@ -126,19 +113,19 @@ class _AuthState extends State<Auth> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _imageCompany(),
+            common.imageCompany(imageUrl: widget.imageUrl),
             SizedBox(
               height: 32.0,
             ),
             Text(
               "Coloca a continuación el código de autenticación que se te proporcionó",
-              style: TextStyle(color: Colors.black54, fontSize: 18.0),
+              style: TextStyle(color: Colors.white, fontSize: 18.0),
               textAlign: TextAlign.center,
             ),
             _passwordBox(context),
             Text(
               "En caso de no tener uno, solicítalo a los organizadores del evento",
-              style: TextStyle(color: Colors.black54),
+              style: TextStyle(color: Colors.white),
               textAlign: TextAlign.center,
             ),
             _sendPasswordBoton(context)
@@ -177,6 +164,7 @@ class _AuthState extends State<Auth> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
+        backgroundColor: constant.primaryColor,
         appBar: common.appBarLogin(
             context: context,
             titleAppBar: "Bienvenido",

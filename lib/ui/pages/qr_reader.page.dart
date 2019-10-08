@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:control_eventos_qr/ui/pages/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:control_eventos_qr/data/constants.dart' as constant;
@@ -54,15 +55,21 @@ class _QrReaderPageState extends State<QrReaderPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: constant.primaryColor,
           title: Text("Scan QR"),
           actions: <Widget>[
             FlatButton(
               child: Icon(
                 Icons.settings,
-                color: Colors.white70,
+                color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Settings(
+                            company: this._company,
+                          ))),
             )
           ],
         ),
@@ -78,20 +85,20 @@ class _QrReaderPageState extends State<QrReaderPage> {
                     _onQRViewCreated(controller, context);
                   },
                   overlay: QrScannerOverlayShape(
-                      borderColor: Colors.red,
+                      borderColor: constant.accentColor,
                       borderRadius: 10,
                       borderLength: 20,
-                      borderWidth: 5,
-                      cutOutSize: 200,
-                      overlayColor: Color.fromRGBO(0, 0, 0, 30)),
+                      borderWidth: 10,
+                      cutOutSize: MediaQuery.of(context).size.width - 100.0,
+                      overlayColor: (constant.primaryColor.withOpacity(0.7))),
                 ),
                 Positioned.fill(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
+                    padding: const EdgeInsets.only(top: 32.0),
                     child: Text(
                       'Align the QR code within \n the frame to scan.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white70),
+                      style: TextStyle(color: Colors.white70, fontSize: 16.0),
                     ),
                   ),
                 ),

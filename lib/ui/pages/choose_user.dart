@@ -26,33 +26,38 @@ class _ChooseUserState extends State<ChooseUser> {
   Widget _elementList({int item, String urlImage}) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
-      leading: Container(
-        height: 50.0,
-        width: 50.0,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(50.0)),
-        child: urlImage != null
-            ? Image.asset(
-                urlImage,
-                fit: BoxFit.contain,
-              )
-            : Icon(
-                Icons.account_circle,
-                size: 50.0,
-              ),
+      leading: ClipRRect(
+        borderRadius: BorderRadius.circular(50.0),
+        child: Container(
+          height: 50.0,
+          width: 50.0,
+          decoration: BoxDecoration(color: Colors.white),
+          child: urlImage != null
+              ? Image.asset(
+                  urlImage,
+                  fit: BoxFit.contain,
+                )
+              : Icon(
+                  Icons.account_circle,
+                  size: 50.0,
+                ),
+        ),
       ),
       title: Text(
         "${_companies[item].name}",
-        style: TextStyle(fontSize: 20.0),
+        style: TextStyle(fontSize: 20.0, color: Colors.white),
       ),
-      subtitle: Text("${_companies[item].desc}"),
+      subtitle: Text(
+        "${_companies[item].desc}",
+        style: TextStyle(color: Colors.grey[400]),
+      ),
     );
   }
 
   Widget _body(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 36.0, left: 8.0, right: 8.0),
-      color: Colors.white,
+      color: constant.primaryColor,
       child: FutureBuilder(
         future: firebase.getCompanies("${constant.codeUser[widget.code]}"),
         builder: (BuildContext context, AsyncSnapshot snap) {
@@ -89,7 +94,8 @@ class _ChooseUserState extends State<ChooseUser> {
   }
 
   Widget _bottom(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: Colors.white12,
       height: 50.0,
       width: MediaQuery.of(context).size.width,
       child: Row(
@@ -109,6 +115,7 @@ class _ChooseUserState extends State<ChooseUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: constant.primaryColor,
       appBar: common.appBarLogin(
           context: context,
           titleAppBar: "Siguiente paso",
