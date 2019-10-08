@@ -123,9 +123,13 @@ class _QrReaderPageState extends State<QrReaderPage> {
         }
 
         if (_company.type == 'Organizer') {
+          Future<void> future = showModalBottomSheet(
+              context: context,
+              builder: (context) => _customOrganizerBottomSheet());
+
+          future.then((void value) => controller.resumeCamera());
         } else {
           // first parameter logistic / feria / sponsors
-          // second parameter almuerzo / startup_1 / jala
           if (this.ticket.data[_company.type][_company.name] == null) {
             Future<void> future = showModalBottomSheet(
                 context: context, builder: (context) => _customBottomSheet());
@@ -159,6 +163,45 @@ class _QrReaderPageState extends State<QrReaderPage> {
     );
   }
 
+  _customOrganizerBottomSheet() {
+    print(this.ticket.data);
+    print(this.ticket.data['logistic']);
+    print(this.ticket.data['logistic']['desayuno']);
+    return Container(
+      height: 150.0,
+      color: Colors.amber,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          CustomButton(
+            icon: constant.iconsSouvenir['desayuno'],
+            addFunction: _updateTicketOrganizer,
+            valueOrganizer: 'desayuno',
+            isEnable: this.ticket.data['logistic']['desayuno'],
+          ),
+          CustomButton(
+            icon: constant.iconsSouvenir['almuerzo'],
+            addFunction: _updateTicketOrganizer,
+            valueOrganizer: 'almuerzo',
+            isEnable: this.ticket.data['logistic']['almuerzo'],
+          ),
+          CustomButton(
+            icon: constant.iconsSouvenir['souvenir'],
+            addFunction: _updateTicketOrganizer,
+            valueOrganizer: 'souvenir',
+            isEnable: this.ticket.data['logistic']['souvenir'],
+          ),
+          CustomButton(
+            icon: constant.iconsSouvenir['regalo'],
+            addFunction: _updateTicketOrganizer,
+            valueOrganizer: 'regalo',
+            isEnable: this.ticket.data['logistic']['regalo'],
+          ),
+        ],
+      ),
+    );
+  }
+
   //Firebase call query
   Future<void> _searchForTicket(String scanData) async {
     QuerySnapshot _t = await databaseReference
@@ -179,6 +222,15 @@ class _QrReaderPageState extends State<QrReaderPage> {
   _updateTicket(int value) async {
     var x = this.ticket.data;
     x[_company.type][_company.name] = value;
+    await databaseReference
+        .collection(constant.collectionDefault)
+        .document(this.ticket.documentID)
+        .updateData(x);
+  }
+
+  _updateTicketOrganizer(String organizer) async {
+    var x = this.ticket.data;
+    x['logistic'][organizer] = true;
     await databaseReference
         .collection(constant.collectionDefault)
         .document(this.ticket.documentID)
