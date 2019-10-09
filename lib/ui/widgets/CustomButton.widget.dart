@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:control_eventos_qr/data/constants.dart' as constant;
 
 class CustomButton extends StatelessWidget {
   final IconData icon;
@@ -21,14 +22,22 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (value != 0)
       return FlatButton(
-        child: Icon(this.icon, size: this.size),
+        child: Icon(
+          this.icon,
+          size: this.size,
+          color: constant.secundaryColor,
+        ),
         onPressed: () {
           addFunction(this.value);
           Navigator.pop(context);
         },
       );
     return FlatButton(
-      child: Icon(this.icon, size: this.size),
+      child: Icon(
+        this.icon,
+        size: this.size,
+        color: constant.accentColor,
+      ),
       onPressed: isEnable
           ? null
           : () {

@@ -39,7 +39,6 @@ class _QrReaderPageState extends State<QrReaderPage> {
   void _getCompany() async {
     await preferences.getString(key: 'name').then((value) {
       setState(() {
-        print(value);
         this._company = Company.fromJson(jsonDecode(value));
       });
     });
@@ -47,7 +46,6 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   @override
   Widget build(BuildContext context) {
-    print('hola hola');
     return WillPopScope(
       onWillPop: () {
         SystemChannels.platform.invokeMethod('SystemNavigator.pop');
@@ -85,12 +83,13 @@ class _QrReaderPageState extends State<QrReaderPage> {
                     _onQRViewCreated(controller, context);
                   },
                   overlay: QrScannerOverlayShape(
-                      borderColor: constant.accentColor,
-                      borderRadius: 10,
-                      borderLength: 20,
-                      borderWidth: 10,
-                      cutOutSize: MediaQuery.of(context).size.width - 100.0,
-                      overlayColor: (constant.primaryColor.withOpacity(0.7))),
+                    borderColor: constant.accentColor,
+                    borderRadius: 10,
+                    borderLength: 20,
+                    borderWidth: 10,
+                    cutOutSize: MediaQuery.of(context).size.width - 100.0,
+                    overlayColor: constant.primaryColor.withOpacity(0.7),
+                  ),
                 ),
                 Positioned.fill(
                   child: Padding(
@@ -154,58 +153,85 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   _customBottomSheet() {
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
       height: 150.0,
-      color: Colors.red,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      color: constant.primaryColor,
+      child: Column(
         children: <Widget>[
-          CustomButton(
-              icon: Icons.filter_1, addFunction: _updateTicket, value: 1),
-          CustomButton(
-              icon: Icons.filter_3, addFunction: _updateTicket, value: 3),
-          CustomButton(
-              icon: Icons.filter_5, addFunction: _updateTicket, value: 5),
+          Container(
+            padding: EdgeInsets.only(top: 16.0),
+            child: Text(
+              'Seleccione los puntos a dar al asistente:',
+              style: TextStyle(
+                color: constant.secundaryColor,
+                fontSize: 16,
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  CustomButton(
+                      icon: Icons.filter_1,
+                      addFunction: _updateTicket,
+                      value: 1),
+                  CustomButton(
+                      icon: Icons.filter_3,
+                      addFunction: _updateTicket,
+                      value: 3),
+                  CustomButton(
+                      icon: Icons.filter_5,
+                      addFunction: _updateTicket,
+                      value: 5),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
   _customOrganizerBottomSheet() {
-    print(this.ticket.data);
-    print(this.ticket.data['logistic']);
-    print(this.ticket.data['logistic']['desayuno']);
-    return Container(
-      height: 150.0,
-      color: Colors.amber,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          CustomButton(
-            icon: constant.iconsSouvenir['desayuno'],
-            addFunction: _updateTicketOrganizer,
-            valueOrganizer: 'desayuno',
-            isEnable: this.ticket.data['logistic']['desayuno'],
+    return Column(
+      children: <Widget>[
+        Text('Selecciones los puntos a sumar'),
+        Container(
+          height: 150.0,
+          color: constant.primaryColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              CustomButton(
+                icon: constant.iconsSouvenir['desayuno'],
+                addFunction: _updateTicketOrganizer,
+                valueOrganizer: 'desayuno',
+                isEnable: this.ticket.data['logistic']['desayuno'],
+              ),
+              CustomButton(
+                icon: constant.iconsSouvenir['almuerzo'],
+                addFunction: _updateTicketOrganizer,
+                valueOrganizer: 'almuerzo',
+                isEnable: this.ticket.data['logistic']['almuerzo'],
+              ),
+              CustomButton(
+                icon: constant.iconsSouvenir['souvenir'],
+                addFunction: _updateTicketOrganizer,
+                valueOrganizer: 'souvenir',
+                isEnable: this.ticket.data['logistic']['souvenir'],
+              ),
+              CustomButton(
+                icon: constant.iconsSouvenir['regalo'],
+                addFunction: _updateTicketOrganizer,
+                valueOrganizer: 'regalo',
+                isEnable: this.ticket.data['logistic']['regalo'],
+              ),
+            ],
           ),
-          CustomButton(
-            icon: constant.iconsSouvenir['almuerzo'],
-            addFunction: _updateTicketOrganizer,
-            valueOrganizer: 'almuerzo',
-            isEnable: this.ticket.data['logistic']['almuerzo'],
-          ),
-          CustomButton(
-            icon: constant.iconsSouvenir['souvenir'],
-            addFunction: _updateTicketOrganizer,
-            valueOrganizer: 'souvenir',
-            isEnable: this.ticket.data['logistic']['souvenir'],
-          ),
-          CustomButton(
-            icon: constant.iconsSouvenir['regalo'],
-            addFunction: _updateTicketOrganizer,
-            valueOrganizer: 'regalo',
-            isEnable: this.ticket.data['logistic']['regalo'],
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
