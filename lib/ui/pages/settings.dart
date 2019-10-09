@@ -1,4 +1,5 @@
 import 'package:control_eventos_qr/models/company.dart';
+import 'package:control_eventos_qr/ui/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
 import 'package:control_eventos_qr/utils/preferences.dart' as preferences;
@@ -47,10 +48,10 @@ class _SettingsState extends State<Settings> {
     return SizedBox(
       height: 100.0,
       child: Center(
-        child: InkWell(
-          child: Container(),
-        ),
-      ),
+          child: RaisedButton(
+        onPressed: () => _logOut(),
+        child: Text('LogOut'),
+      )),
     );
   }
 
@@ -62,7 +63,9 @@ class _SettingsState extends State<Settings> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 32.0),
-            child: common.imageCompany(imageUrl: imageUrl,),
+            child: common.imageCompany(
+              imageUrl: imageUrl,
+            ),
           ),
           Expanded(child: SizedBox()),
           _logOutBoton(),
@@ -70,6 +73,11 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
+  }
+
+  void _logOut() {
+    preferences.addBool(key: 'login', value: false);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
 
   void _getImageUrl() {
