@@ -32,12 +32,29 @@ class CustomButton extends StatelessWidget {
           Navigator.pop(context);
         },
       );
+    Widget buttonContent = Icon(
+      this.icon,
+      size: this.size,
+      color: constant.secundaryColor,
+    );
+    if (isEnable) {
+      buttonContent = Stack(
+        children: <Widget>[
+          Icon(
+            this.icon,
+            size: this.size,
+            color: constant.tertiaryColor,
+          ),
+          Icon(
+            Icons.check,
+            size: this.size,
+            color: Colors.green[400],
+          ),
+        ],
+      );
+    }
     return FlatButton(
-      child: Icon(
-        this.icon,
-        size: this.size,
-        color: constant.accentColor,
-      ),
+      child: buttonContent,
       onPressed: isEnable
           ? null
           : () {

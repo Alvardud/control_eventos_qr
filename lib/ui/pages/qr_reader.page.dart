@@ -195,43 +195,56 @@ class _QrReaderPageState extends State<QrReaderPage> {
   }
 
   _customOrganizerBottomSheet() {
-    return Column(
-      children: <Widget>[
-        Text('Selecciones los puntos a sumar'),
-        Container(
-          height: 150.0,
-          color: constant.primaryColor,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              CustomButton(
-                icon: constant.iconsSouvenir['desayuno'],
-                addFunction: _updateTicketOrganizer,
-                valueOrganizer: 'desayuno',
-                isEnable: this.ticket.data['logistic']['desayuno'],
+    return Container(
+      height: 150.0,
+      color: constant.primaryColor,
+      child: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.only(top: 16.0),
+            child: Text(
+              'Seleccione la logistica a entregar:',
+              style: TextStyle(
+                color: constant.secundaryColor,
+                fontSize: 16,
               ),
-              CustomButton(
-                icon: constant.iconsSouvenir['almuerzo'],
-                addFunction: _updateTicketOrganizer,
-                valueOrganizer: 'almuerzo',
-                isEnable: this.ticket.data['logistic']['almuerzo'],
-              ),
-              CustomButton(
-                icon: constant.iconsSouvenir['souvenir'],
-                addFunction: _updateTicketOrganizer,
-                valueOrganizer: 'souvenir',
-                isEnable: this.ticket.data['logistic']['souvenir'],
-              ),
-              CustomButton(
-                icon: constant.iconsSouvenir['regalo'],
-                addFunction: _updateTicketOrganizer,
-                valueOrganizer: 'regalo',
-                isEnable: this.ticket.data['logistic']['regalo'],
-              ),
-            ],
+            ),
           ),
-        ),
-      ],
+          Expanded(
+            child: Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  CustomButton(
+                    icon: constant.iconsSouvenir['desayuno'],
+                    addFunction: _updateTicketOrganizer,
+                    valueOrganizer: 'desayuno',
+                    isEnable: this.ticket.data['logistic']['desayuno'],
+                  ),
+                  CustomButton(
+                    icon: constant.iconsSouvenir['almuerzo'],
+                    addFunction: _updateTicketOrganizer,
+                    valueOrganizer: 'almuerzo',
+                    isEnable: this.ticket.data['logistic']['almuerzo'],
+                  ),
+                  CustomButton(
+                    icon: constant.iconsSouvenir['souvenir'],
+                    addFunction: _updateTicketOrganizer,
+                    valueOrganizer: 'souvenir',
+                    isEnable: this.ticket.data['logistic']['souvenir'],
+                  ),
+                  CustomButton(
+                    icon: constant.iconsSouvenir['regalo'],
+                    addFunction: _updateTicketOrganizer,
+                    valueOrganizer: 'regalo',
+                    isEnable: this.ticket.data['logistic']['regalo'],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
