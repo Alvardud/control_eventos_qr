@@ -50,16 +50,19 @@ class _LogoutState extends State<Logout> {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32.0),
-            child: common.imageCompany(
-              imageUrl: imageUrl,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: common.imageCompany(
+                imageUrl: imageUrl,
+              ),
             ),
           ),
-          Expanded(child: SizedBox()),
-          common.SendPasswordBoton(
-            function: _logOut,
-            title: "CERRAR SESIÓN",
+          Expanded(
+            child: common.SendPasswordBoton(
+              function: _logOut,
+              title: "CERRAR SESIÓN",
+            ),
           ),
           _footer()
         ],
