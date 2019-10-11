@@ -79,28 +79,7 @@ class _AuthState extends State<Auth> {
     );
   }
 
-  Widget _sendPasswordBoton(BuildContext context) {
-    return InkWell(
-      onTap: () => _logIn(context),
-      child: Container(
-        margin: EdgeInsets.all(16.0),
-        height: 50.0,
-        width: 150.0,
-        decoration: BoxDecoration(
-            color: constant.secundaryColor,
-            borderRadius: BorderRadius.circular(50.0)),
-        child: Center(
-          child: Text(
-            "INGRESAR",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: 16.0),
-          ),
-        ),
-      ),
-    );
-  }
+  
 
   Widget _body(BuildContext context) {
     return Container(
@@ -128,7 +107,7 @@ class _AuthState extends State<Auth> {
               style: TextStyle(color: Colors.white),
               textAlign: TextAlign.center,
             ),
-            _sendPasswordBoton(context)
+            common.SendPasswordBoton(function: _logIn,title: 'INGRESAR',)
           ],
         ),
       ),

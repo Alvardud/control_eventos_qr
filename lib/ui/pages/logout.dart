@@ -5,15 +5,15 @@ import 'package:control_eventos_qr/ui/widgets/common.dart' as common;
 import 'package:control_eventos_qr/utils/preferences.dart' as preferences;
 import 'package:control_eventos_qr/data/constants.dart' as constant;
 
-class Settings extends StatefulWidget {
+class Logout extends StatefulWidget {
   final Company company;
-  Settings({this.company});
+  Logout({this.company});
 
   @override
-  _SettingsState createState() => _SettingsState();
+  _LogoutState createState() => _LogoutState();
 }
 
-class _SettingsState extends State<Settings> {
+class _LogoutState extends State<Logout> {
   String imageUrl;
 
   Widget _footer() {
@@ -44,17 +44,6 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  Widget _logOutBoton() {
-    return SizedBox(
-      height: 100.0,
-      child: Center(
-          child: RaisedButton(
-        onPressed: () => _logOut(),
-        child: Text('LogOut'),
-      )),
-    );
-  }
-
   Widget _body(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
@@ -68,7 +57,10 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           Expanded(child: SizedBox()),
-          _logOutBoton(),
+          common.SendPasswordBoton(
+            function: _logOut,
+            title: "CERRAR SESIÓN",
+          ),
           _footer()
         ],
       ),

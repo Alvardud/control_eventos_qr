@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:control_eventos_qr/ui/pages/settings.dart';
+import 'package:control_eventos_qr/ui/pages/logout.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:control_eventos_qr/data/constants.dart' as constant;
@@ -65,7 +65,7 @@ class _QrReaderPageState extends State<QrReaderPage> {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Settings(
+                      builder: (context) => Logout(
                             company: this._company,
                           ))),
             )
