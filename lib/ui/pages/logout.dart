@@ -16,6 +16,31 @@ class Logout extends StatefulWidget {
 class _LogoutState extends State<Logout> {
   String imageUrl;
 
+  Widget _sendLogoutBoton({BuildContext context}) {
+    return InkWell(
+      onTap: () {
+        _logOut(context);
+      },
+      child: Container(
+        margin: EdgeInsets.all(16.0),
+        height: 50.0,
+        width: 150.0,
+        decoration: BoxDecoration(
+            color: constant.secundaryColor,
+            borderRadius: BorderRadius.circular(50.0)),
+        child: Center(
+          child: Text(
+            "CERRAR SESIÓN",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 16.0),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _footer() {
     return Container(
       height: 75.0,
@@ -58,20 +83,15 @@ class _LogoutState extends State<Logout> {
               ),
             ),
           ),
-          Expanded(
-            child: common.SendPasswordBoton(
-              function: _logOut,
-              title: "CERRAR SESIÓN",
-            ),
-          ),
+          _sendLogoutBoton(context: context),
           _footer()
         ],
       ),
     );
   }
 
-  void _logOut() {
-    preferences.addBool(key: 'login', value: false);
+  void _logOut(BuildContext context) async {
+    await preferences.addBool(key: 'login', value: false);
     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
 

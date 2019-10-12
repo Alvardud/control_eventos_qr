@@ -117,49 +117,18 @@ void showSnackBar({BuildContext context, String text}) {
 }
 
 Widget imageCompany({String imageUrl}) {
-  return Container(
-    width: 150.0,
-    height: 150.0,
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(100.0)),
-    child: imageUrl != null
-        ? Image.asset(imageUrl)
-        : Icon(
-            Icons.account_circle,
-            size: 150.0,
-            color: Colors.grey,
-          ),
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(100.0),
+      child: SizedBox(
+      width: 150.0,
+      height: 150.0,
+      child: imageUrl != null
+          ? Image.asset(imageUrl)
+          : Icon(
+              Icons.account_circle,
+              size: 150.0,
+              color: Colors.grey,
+            ),
+    ),
   );
-}
-
-class SendPasswordBoton extends StatelessWidget {
-  final Function function;
-  final String title;
-
-  SendPasswordBoton({this.function, this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        function();
-      },
-      child: Container(
-        margin: EdgeInsets.all(16.0),
-        height: 50.0,
-        width: 150.0,
-        decoration: BoxDecoration(
-            color: constant.secundaryColor,
-            borderRadius: BorderRadius.circular(50.0)),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: 16.0),
-          ),
-        ),
-      ),
-    );
-  }
 }
