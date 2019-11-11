@@ -24,6 +24,8 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   var qrText = "";
 
+  var options = [];
+
   Company _company;
   DocumentSnapshot ticket;
 
@@ -128,6 +130,18 @@ class _QrReaderPageState extends State<QrReaderPage> {
           return;
         }
 
+        switch (ticket.data['paquete']) {
+          case 'Full Access':
+            options = constant.FullAccess;
+            break;
+          case 'Saturday Access':
+            options = constant.SaturdayAccess;
+            break;
+          case 'Friday Access':
+            options = constant.FridayAccess;
+            break;
+        }
+
         if (_company.type == 'Organizer') {
           Future<void> future = showModalBottomSheet(
               context: context,
@@ -153,11 +167,15 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   _customBottomSheet() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      height: 150.0,
+      padding: EdgeInsets.all(12.0),
+      height: MediaQuery.of(context).size.height / 3,
       color: constant.primaryColor,
       child: Column(
         children: <Widget>[
+          _getGuestInfo(),
+          Divider(
+            color: Colors.white,
+          ),
           Container(
             padding: EdgeInsets.only(top: 16.0),
             child: Text(
@@ -196,12 +214,17 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   _customOrganizerBottomSheet() {
     return Container(
-      height: 150.0,
+      padding: EdgeInsets.all(12.0),
+      height: MediaQuery.of(context).size.height / 3,
       color: constant.primaryColor,
       child: Column(
         children: <Widget>[
+          _getGuestInfo(),
+          Divider(
+            color: Colors.white,
+          ),
           Container(
-            padding: EdgeInsets.only(top: 16.0),
+            padding: EdgeInsets.only(top: 2.0, bottom: 12.0),
             child: Text(
               'Seleccione la logistica a entregar:',
               style: TextStyle(
@@ -212,39 +235,74 @@ class _QrReaderPageState extends State<QrReaderPage> {
           ),
           Expanded(
             child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  CustomButton(
-                    icon: constant.iconsSouvenir['desayuno'],
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext builContext, int i) {
+                  return CustomButton(
+                    icon: constant.iconsSouvenir[options[i].toLowerCase()],
                     addFunction: _updateTicketOrganizer,
-                    valueOrganizer: 'desayuno',
-                    isEnable: this.ticket.data['logistic']['desayuno'],
-                  ),
-                  CustomButton(
-                    icon: constant.iconsSouvenir['almuerzo'],
-                    addFunction: _updateTicketOrganizer,
-                    valueOrganizer: 'almuerzo',
-                    isEnable: this.ticket.data['logistic']['almuerzo'],
-                  ),
-                  CustomButton(
-                    icon: constant.iconsSouvenir['souvenir'],
-                    addFunction: _updateTicketOrganizer,
-                    valueOrganizer: 'souvenir',
-                    isEnable: this.ticket.data['logistic']['souvenir'],
-                  ),
-                  CustomButton(
-                    icon: constant.iconsSouvenir['regalo'],
-                    addFunction: _updateTicketOrganizer,
-                    valueOrganizer: 'regalo',
-                    isEnable: this.ticket.data['logistic']['regalo'],
-                  ),
-                ],
+                    valueOrganizer: options[i],
+                    isEnable: this.ticket.data['logistic'][options[i]],
+                  );
+                },
+                itemCount: options.length,
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _getGuestInfo() {
+    return Column(
+      children: <Widget>[
+        Container(
+          child: Text(
+            ticket.data['nombre'],
+            style: TextStyle(
+              fontSize: 24.0,
+              color: constant.secundaryColor,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 2.0,
+        ),
+        Container(
+          child: Text(
+            ticket.data['email'],
+            style: TextStyle(
+              fontSize: 12.0,
+              color: constant.secundaryColor,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 2.0,
+        ),
+        Container(
+          child: Text(
+            'Número ticket: ${ticket.data['ticket'].toString()}',
+            style: TextStyle(
+              fontSize: 16.0,
+              color: constant.secundaryColor,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 2.0,
+        ),
+        Container(
+          child: Text(
+            'Paquete: ${ticket.data['paquete']}',
+            style: TextStyle(
+              fontSize: 16.0,
+              color: constant.secundaryColor,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

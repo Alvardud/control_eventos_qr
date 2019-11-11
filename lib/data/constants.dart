@@ -67,9 +67,13 @@ const Map<String, IconData> iconsSouvenir = {
   "desayuno": IconData(0xe901, fontFamily: 'Custom Icons'),
   "almuerzo": IconData(0xe905, fontFamily: 'Custom Icons'),
   "souvenir": IconData(0xe907, fontFamily: 'Custom Icons'),
-  "regalo": IconData(0xe900, fontFamily: 'Custom Icons'),
+  "sticker": IconData(0xe900, fontFamily: 'Custom Icons'),
   "adicionar": IconData(0xe908, fontFamily: 'Custom Icons'),
-  "puntos": IconData(0xe909, fontFamily: 'Custom Icons'),
+  "refrigerio": IconData(0xe909, fontFamily: 'Custom Icons'),
+  "conferencia": IconData(0xe909, fontFamily: 'Custom Icons'),
+  "feria proyectos": IconData(0xe909, fontFamily: 'Custom Icons'),
+  "workshop 1": IconData(0xe909, fontFamily: 'Custom Icons'),
+  "workshop 2": IconData(0xe909, fontFamily: 'Custom Icons'),
 };
 
 List<Color> colorsDefault = [
@@ -90,3 +94,26 @@ Company companyOrganizer = Company(
   pass: "1234",
   type: 'Organizer',
 );
+
+const List<String> FridayAccess = [
+  'Workshop 1',
+  'Workshop 2',
+  'Refrigerio',
+  'Sticker',
+];
+const List<String> SaturdayAccess = [
+  'Conferencia',
+  'Feria Proyectos',
+  'Almuerzo',
+  'Sticker',
+];
+const List<String> FullAccess = [
+  'Workshop 1',
+  'Workshop 2',
+  'Conferencia',
+  'Feria Proyectos',
+  'Desayuno',
+  'Almuerzo',
+  'Souvenir',
+  'Sticker',
+];

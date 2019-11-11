@@ -21,46 +21,72 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (value != 0)
-      return FlatButton(
-        child: Icon(
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+        child: RaisedButton(
+          child: Column(
+            children: <Widget>[
+              Icon(
+                this.icon,
+                size: this.size,
+                color: constant.secundaryColor,
+              ),
+              //Text(this.valueOrganizer)
+            ],
+          ),
+          onPressed: () {
+            addFunction(this.value);
+            Navigator.pop(context);
+          },
+        ),
+      );
+    Widget buttonContent = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(
           this.icon,
           size: this.size,
           color: constant.secundaryColor,
         ),
-        onPressed: () {
-          addFunction(this.value);
-          Navigator.pop(context);
-        },
-      );
-    Widget buttonContent = Icon(
-      this.icon,
-      size: this.size,
-      color: constant.secundaryColor,
+        Text(this.valueOrganizer)
+      ],
     );
     if (isEnable) {
-      buttonContent = Stack(
+      buttonContent = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            this.icon,
-            size: this.size,
-            color: constant.tertiaryColor,
+          Stack(
+            children: <Widget>[
+              Icon(
+                this.icon,
+                size: this.size,
+                color: constant.tertiaryColor,
+              ),
+              Icon(
+                Icons.check,
+                size: this.size,
+                color: Colors.green[800],
+              ),
+            ],
           ),
-          Icon(
-            Icons.check,
-            size: this.size,
-            color: Colors.green[400],
-          ),
+          Text(this.valueOrganizer)
         ],
       );
     }
-    return FlatButton(
-      child: buttonContent,
-      onPressed: isEnable
-          ? null
-          : () {
-              addFunction(this.valueOrganizer);
-              Navigator.pop(context);
-            },
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 4.0),
+      child: Center(
+        child: RaisedButton(
+          disabledColor: Colors.amber,
+          onPressed: isEnable
+              ? null
+              : () {
+                  addFunction(this.valueOrganizer);
+                  Navigator.pop(context);
+                },
+          child: Container(child: buttonContent),
+        ),
+      ),
     );
   }
 }
