@@ -1,4 +1,4 @@
-# control_eventos_qr
+# Control events QR
 
 Application that manages organizational events in meetup organized for GDG
 
@@ -12,10 +12,8 @@ The application was used from the [GDG La Paz](https://gdglapaz.com/)
 ## Installation
 > for installation use [flutter](flutter.dev) SDK
 ```bash
-git clone https://github.com/Alvardud/jornadas_academicas_emi2019.git
+git clone https://github.com/Alvardud/control_eventos_qr.git
 cd control_eventos_qr
 ```
 ## Contributors
-@all-contributors add
-
-> Una vez finalizado se fusionaran todos los cursos en el proyecto
+Development: [Marco Leonardini](https://github.com/marcoleonardini)
